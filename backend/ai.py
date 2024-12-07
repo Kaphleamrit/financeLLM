@@ -12,17 +12,17 @@ client = OpenAI(
     api_key=os.environ.get("OPENAI_API_KEY")
 )
 
+r = requests.get('https://www.vox.com/policy/390031/anthem-blue-cross-blue-shield-anesthesia-limits-insurance')
+
+# Parsing the HTML
+soup = BeautifulSoup(r.content, 'html.parser')
+
+s = soup.find('div', class_='entry-content')
+content = soup.find_all('p')
+article_text = " ".join([p.text for p in content])
+  
 
 def getStockSuggestion():
-  r = requests.get('https://www.vox.com/policy/390031/anthem-blue-cross-blue-shield-anesthesia-limits-insurance')
-
-  # Parsing the HTML
-  soup = BeautifulSoup(r.content, 'html.parser')
-
-  s = soup.find('div', class_='entry-content')
-  content = soup.find_all('p')
-  article_text = " ".join([p.text for p in content])
-  
   
   prompt ="""You are an expert financial analyst.
   Based on the text in the article below, return a list of stock tickers that are related directly or indirectly to the article.
@@ -30,7 +30,7 @@ def getStockSuggestion():
   <article_text>""" +"\n" + article_text + "\n" + """</article_text>
 
   Return your response in JSON format like this example:
-  [
+  stocks = [
       {
         "ticker": "AAPL",
         "explanation": "<explanation of why the company is related to the article>"
@@ -52,6 +52,7 @@ def getStockSuggestion():
   )
 
   response = llm_response.choices[0].message.content  
+  return response
     
 
 

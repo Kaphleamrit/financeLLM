@@ -3,10 +3,12 @@ from pydantic import BaseModel
 
 app = FastAPI()
 
-class Item(BaseModel):
-    name: str
-    price: float
+class Query(BaseModel):
+    query: str
 
-@app.post("/items")
-async def create_item(item: Item):
+@app.post("/query")
+async def printQuery(query: Query):
+    print("welcome")
+    print(query.query)
+    item = {"query": query.query}
     return {"item": item}
