@@ -30,7 +30,7 @@ def getStockSuggestion():
   <article_text>""" +"\n" + article_text + "\n" + """</article_text>
 
   Return your response in JSON format like this example:
-  stocks = [
+  related_companies = [
       {
         "ticker": "AAPL",
         "explanation": "<explanation of why the company is related to the article>"
